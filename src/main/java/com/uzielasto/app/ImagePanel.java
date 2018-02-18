@@ -1,8 +1,8 @@
 package com.uzielasto.app;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class ImagePanel extends JPanel {
         try {
             image = ImageIO.read(new File(s));
         } catch (IOException ex) {
-           System.out.print(ex.getMessage());
+            System.out.print(ex.getMessage());
         }
     }
 

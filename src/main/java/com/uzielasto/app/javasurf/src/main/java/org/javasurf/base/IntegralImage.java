@@ -1,21 +1,21 @@
 package com.uzielasto.app.javasurf.src.main.java.org.javasurf.base;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
  * A standard implementation of the Integral_Image interface. Creates the
  * integral image representation of supplied input image. Calculates pixel sums
  * over upright rectangular areas.
- * 
+ *
  * @author Alessandro Martini, Claudio Fantacci,Mite Mitreski
  */
 public class IntegralImage implements com.uzielasto.app.javasurf.src.main.java.org.javasurf.base.IIntegralImage {
 
     private float[][] integralValues;
     private BufferedImage img;
-    private int width=0;
-    private int height=0;
+    private int width = 0;
+    private int height = 0;
 
     /**
      * Constructor of IntegralImage. The constructor receives the image and
@@ -23,10 +23,10 @@ public class IntegralImage implements com.uzielasto.app.javasurf.src.main.java.o
      * integralValues of the same dimension of the given image. The Integral
      * Image is full calculated as follows:
      * <ul>
-     *
+     * <p>
      * <li>At the first line, the direct sum of intensity (brightness) of pixels
      * in each point represents the right value of the integral;</li>
-     *
+     * <p>
      * <li>For each next line, the correct value is given by the sum of the
      * current row and of the cell in the matrix of the same coordinates of the
      * pixel immediately above the pixel being processed.</li>
@@ -34,8 +34,8 @@ public class IntegralImage implements com.uzielasto.app.javasurf.src.main.java.o
      */
     public IntegralImage(BufferedImage image) {
         this.img = image;
-        width=img.getWidth();
-        height=img.getHeight();
+        width = img.getWidth();
+        height = img.getHeight();
         integralValues = new float[height][width];
         for (int i = 0; i < height - 1; i++) {
             float sumOfTheCurrentRow = 0;
@@ -64,7 +64,7 @@ public class IntegralImage implements com.uzielasto.app.javasurf.src.main.java.o
     }
 
     public float getIntegralSquare(int xA, int yA, int xD, int yD) {
-   
+
         float A = getIntegralValue(xA, yA);
         float D = getIntegralValue(xD, yD);
         float B = getIntegralValue(xD, yA);

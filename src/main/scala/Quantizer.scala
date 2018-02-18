@@ -1,28 +1,29 @@
 package com.uzielasto.app.scala
 
 
-import java.awt.geom.Arc2D
-import java.io.File
-import javax.imageio.ImageIO
-import java.awt.image._
-import com.uzielasto.app.{QuantizedImage, VideoImage, ImageAdjaster, ElastoGo}
-import java.util
-import com.uzielasto.app.javasurf.src.main.java.org.javasurf.base._
-import scala.{Int, Float}
 import java.awt._
-import scala.List
-import java.util.logging.{Level, Logger}
+import java.awt.geom.Arc2D
+import java.awt.image._
+import java.io.File
+import java.util
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import java.util.logging.{Level, Logger}
+import javax.imageio.ImageIO
+
+import com.uzielasto.app.javasurf.src.main.java.org.javasurf.base._
+import com.uzielasto.app.{ElastoGo, ImageAdjaster, QuantizedImage, VideoImage}
+
+import scala.List
 
 
 /**
- * Created with IntelliJ IDEA.
- * User: Aleksandr
- * Date: 18.11.12
- * Time: 0:20
- * All rights recieved.(c)
- */
+  * Created with IntelliJ IDEA.
+  * User: Aleksandr
+  * Date: 18.11.12
+  * Time: 0:20
+  * All rights recieved.(c)
+  */
 object Quantizer extends App {
   private val log: Logger = Logger.getLogger("Quantizer")
 
@@ -324,8 +325,8 @@ object Quantizer extends App {
     })
 
 
-    new QuantizedImage(scaleImage(dest, 1 / scaleFactor, 1 / scaleFactor),greenArcPoints,
-    orangeArcPoints,redArcPoints)
+    new QuantizedImage(scaleImage(dest, 1 / scaleFactor, 1 / scaleFactor), greenArcPoints,
+      orangeArcPoints, redArcPoints)
   }
 
   def getDateDiff(date1: Date, date2: Date, timeUnit: TimeUnit) = {
@@ -347,7 +348,7 @@ object Quantizer extends App {
     val image = ImageIO.read(new File("uzi_proj\\my-app\\screens\\1354179641351screen.png"))
     val image2 = ImageIO.read(new File("uzi_proj\\my-app\\screens\\1354179644435screen.png"))
     quantoImageTest(image, image2, 180, 70, 300, 300)
-    val grayImg = ElastoGo.getGrayScale(image)
+    val grayImg = ImageAdjaster.getGray(image)
     //    val xyaxis = AppGo.featureMatcher(image, image2, 180, 70, 500, 500)
     ImageIO.write(image2, "png", new File("temp\\test.png"));
     ImageIO.write(image, "png", new File("temp\\test1.png"));
@@ -458,6 +459,7 @@ object Quantizer extends App {
         }
       }
     }
+
     def drawInterestPoints(pointsToDraw: util.ArrayList[InterestPoint]) {
       var i: Int = 0
       while (i < pointsToDraw.size) {
@@ -466,6 +468,7 @@ object Quantizer extends App {
         i += 1;
       }
     }
+
     def cleanupSubsequentPoints(pointsToMatch: util.ArrayList[InterestPoint]) = {
       lastInterestPoints match {
         case null =>
@@ -485,6 +488,7 @@ object Quantizer extends App {
           pointsToMatch
       }
     }
+
     val outImg: BufferedImage = if (firstOutImg == null) {
       firstOutImg = new BufferedImage(img.getWidth, img.getHeight, img.getType)
       firstOutImg
@@ -512,6 +516,7 @@ object Quantizer extends App {
     def on[T, R <% Ordered[R]](f: T => R) = new Ordering[T] {
       def compare(x: T, y: T) = f(x) compare f(y)
     }
+
     def constantSlice(l: List[(Float, Int, Int)], start: Int, end: Int): List[(Float, Int, Int)] =
       l.drop(start).take(end - start)
 
@@ -528,6 +533,7 @@ object Quantizer extends App {
     }
     //descriptors.foreach(x => println(x))
     var acc: scala.collection.mutable.MutableList[Int] = scala.collection.mutable.MutableList()
+
     def foo(a: (Float, Int, Int)) = {
       acc.+=(a._3)
       a
@@ -543,9 +549,10 @@ object Quantizer extends App {
         nowSc(f._2).getX, 2) + math.pow(prevSc(f._3).getY -
         nowSc(f._2).getY, 2)) > 5))
       minimum = if (parSeq.nonEmpty) parSeq minBy {
-        minx => math.sqrt(math.pow(prevSc(minx._3).getX -
-          nowSc(minx._2).getX, 2) + math.pow(prevSc(minx._3).getY -
-          nowSc(minx._2).getY, 2)) + minx._1 * 10
+        minx =>
+          math.sqrt(math.pow(prevSc(minx._3).getX -
+            nowSc(minx._2).getX, 2) + math.pow(prevSc(minx._3).getY -
+            nowSc(minx._2).getY, 2)) + minx._1 * 10
 
       }
       else (9999.9f, 0, 0)
@@ -560,11 +567,11 @@ object Quantizer extends App {
       }
 
     }
-    yield {
-      if ((Math.abs(prevSc(minimum._3).getX - nowSc(minimum._2).getX) < 5
-        && Math.abs(prevSc(minimum._3).getY - nowSc(minimum._2).getY) < 5) && minimum._1 < 0.5f) line
-      else (new Integer(0), new Integer(0), new Integer(0), new Integer(0))
-    }
+      yield {
+        if ((Math.abs(prevSc(minimum._3).getX - nowSc(minimum._2).getX) < 5
+          && Math.abs(prevSc(minimum._3).getY - nowSc(minimum._2).getY) < 5) && minimum._1 < 0.5f) line
+        else (new Integer(0), new Integer(0), new Integer(0), new Integer(0))
+      }
 
     if (prev.size() > 0) matched.toList.asJava
     else null

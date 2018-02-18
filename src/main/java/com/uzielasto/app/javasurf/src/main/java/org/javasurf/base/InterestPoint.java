@@ -1,6 +1,8 @@
 package com.uzielasto.app.javasurf.src.main.java.org.javasurf.base;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 
 
 public class InterestPoint {
@@ -33,7 +35,7 @@ public class InterestPoint {
         this.orientationRadius = Math.atan2(yOrientation - y, xOrientation - x);
         this.parent = parent;
     }
- 
+
     public InterestPoint(float x, float y, float scale, Image parent) {
         this.x = x;
         this.y = y;
@@ -89,7 +91,6 @@ public class InterestPoint {
     }
 
 
-
     public double getOrientation_radius() {
         return orientationRadius;
     }
@@ -124,7 +125,7 @@ public class InterestPoint {
         return information;
     }
 
-    public void drawPosition(int sizeInPx,Color c) {
+    public void drawPosition(int sizeInPx, Color c) {
 
         Graphics2D g2d = (Graphics2D) parent.getGraphics();
         g2d.setColor(c);
@@ -136,21 +137,22 @@ public class InterestPoint {
 
         Graphics2D g2d = (Graphics2D) parent.getGraphics();
         g2d.setColor(strokeColor);
-        g2d.drawRect((int)x-(int)scale*10,(int) y-(int)scale*10, (int)scale*20, (int) scale*20);
+        g2d.drawRect((int) x - (int) scale * 10, (int) y - (int) scale * 10, (int) scale * 20, (int) scale * 20);
 
     }
-    public void drawPositionWithG(int sizeInPx,Color c,Graphics2D g2d,int shiftx, int shifty) {
+
+    public void drawPositionWithG(int sizeInPx, Color c, Graphics2D g2d, int shiftx, int shifty) {
 
         g2d.setColor(c);
-        g2d.fillRect((int) x +shiftx , (int) y +shifty, sizeInPx, sizeInPx);
+        g2d.fillRect((int) x + shiftx, (int) y + shifty, sizeInPx, sizeInPx);
 
     }
 
-    public void drawDescriptorWithG(Color strokeColor,Graphics2D g2d,int shiftx, int shifty) {
+    public void drawDescriptorWithG(Color strokeColor, Graphics2D g2d, int shiftx, int shifty) {
 
 
         g2d.setColor(strokeColor);
-        g2d.drawRect((int)x  +shiftx,(int) y +shifty, (int)scale*4, (int) scale*4);
+        g2d.drawRect((int) x + shiftx, (int) y + shifty, (int) scale * 4, (int) scale * 4);
 
     }
 }

@@ -8,10 +8,15 @@ import com.xuggle.mediatool.ToolFactory;
 import com.xuggle.mediatool.event.IVideoPictureEvent;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -164,8 +169,8 @@ public class AppletMaker {
         mScreen.slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                JSlider source = (JSlider)e.getSource();
-                    milsBetwFr = (int)source.getValue();
+                JSlider source = (JSlider) e.getSource();
+                milsBetwFr = (int) source.getValue();
 
             }
         });
@@ -200,13 +205,13 @@ public class AppletMaker {
     private static void updateJavaWindow(BufferedImage javaImage) {
 
         Dimension tool = mScreen.getToolkit().getScreenSize();
-        if (tool.width < javaImage.getWidth()*2) {
+        if (tool.width < javaImage.getWidth() * 2) {
             java.awt.Image scaledImage = javaImage.getScaledInstance(tool.width, (int) (tool.height / 1.5), 1);
             // convert the scaled image back to a buffered image
-            BufferedImage img = new BufferedImage(tool.width/2, (int) (tool.height / 1.5), BufferedImage.TYPE_3BYTE_BGR);
+            BufferedImage img = new BufferedImage(tool.width / 2, (int) (tool.height / 1.5), BufferedImage.TYPE_3BYTE_BGR);
             img.getGraphics().drawImage(scaledImage, 0, 0, null);
             javaImage = img;
-            }
+        }
         BufferedImage result = new BufferedImage(javaImage.getWidth() * 2, javaImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         BufferedImage img1 = result.getSubimage(0, 0, javaImage.getWidth(), javaImage.getHeight());
         int acc = 0;
@@ -214,7 +219,7 @@ public class AppletMaker {
         BufferedImage img2 = result.getSubimage(javaImage.getWidth(), 0, javaImage.getWidth(), javaImage.getHeight());
         img2 = deepCopy(javaImage);
         counter++;
-        mScreen.setPreferredSize(new Dimension(javaImage.getWidth()*2,javaImage.getHeight()));
+        mScreen.setPreferredSize(new Dimension(javaImage.getWidth() * 2, javaImage.getHeight()));
 
         try {
 
@@ -226,7 +231,7 @@ public class AppletMaker {
                     if (counter > 0 && mScreen.x < javaImage.getWidth()) {
                         img2 = Quantizer.quantoImageTest(tics, im2, mScreen.x, mScreen.y, mScreen.width, mScreen.height);
 
-                       // java.util.List<java.util.List<Integer>> xyaxis = AppGo.featureMatcher(tics, im2, mScreen.x, mScreen.y, mScreen.width, mScreen.height);
+                        // java.util.List<java.util.List<Integer>> xyaxis = AppGo.featureMatcher(tics, im2, mScreen.x, mScreen.y, mScreen.width, mScreen.height);
 //                        xAxis.addAll(xyaxis.get(0));
 //                        yAxis.addAll(xyaxis.get(1));
                     }
@@ -248,8 +253,8 @@ public class AppletMaker {
         g.drawImage(img1, 0, 0, null);
         g.drawImage(img2, img2.getWidth(), 0, null);
         g.dispose();
-       mScreen.setImage(result);
-       screenshot = result;
+        mScreen.setImage(result);
+        screenshot = result;
 
     }
 
@@ -262,12 +267,14 @@ public class AppletMaker {
 
         return mScreen;
     }
+
     static BufferedImage deepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = bi.copyData(null);
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
     }
+
     /**
      * Forces the swing thread to terminate; I'm sure there is a right
      * way to do this in swing, but this works too.

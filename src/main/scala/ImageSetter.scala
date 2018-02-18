@@ -1,24 +1,21 @@
 package com.uzielasto.app.scala
 
 /**
- * Created with IntelliJ IDEA.
- * User: Aleksandr
- * Date: 17.11.12
- * Time: 13:04
- * All rights recieved.(c)
- */
+  * Created with IntelliJ IDEA.
+  * User: Aleksandr
+  * Date: 17.11.12
+  * Time: 13:04
+  * All rights recieved.(c)
+  */
 
-
-import com.xuggle.mediatool.{MediaToolAdapter, MediaListenerAdapter, ToolFactory}
-
-
-import com.xuggle.xuggler.{IContainer, Global}
 
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
 import com.xuggle.mediatool.event.IVideoPictureEvent
+import com.xuggle.mediatool.{MediaListenerAdapter, MediaToolAdapter, ToolFactory}
+import com.xuggle.xuggler.{Global, IContainer}
 
 class ImageSetter extends MediaToolAdapter {
 
@@ -42,8 +39,8 @@ class ImageSet extends MediaListenerAdapter {
   val SECONDS_BETWEEN_FRAMES = 0.01
 
   /**
-   * The number of micro-seconds between frames.
-   */
+    * The number of micro-seconds between frames.
+    */
 
   val MICRO_SECONDS_BETWEEN_FRAMES = (Global.DEFAULT_PTS_PER_SECOND * SECONDS_BETWEEN_FRAMES) / 2
 
@@ -52,9 +49,9 @@ class ImageSet extends MediaListenerAdapter {
   var mLastPtsWrite: Long = Global.NO_PTS
 
   /**
-   * The video stream index, used to ensure we display frames from one
-   * and only one video stream from the media container.
-   */
+    * The video stream index, used to ensure we display frames from one
+    * and only one video stream from the media container.
+    */
 
   private var mVideoStreamIndex = -1
 
@@ -93,13 +90,13 @@ class ImageSet extends MediaListenerAdapter {
   }
 
   /**
-   * Called after a video frame has been decoded from a media stream.
-   * Optionally a BufferedImage version of the frame may be passed
-   * if the calling {@link IMediaReader} instance was configured to
-   * create BufferedImages.
-   *
-   * This method blocks, so return quickly.
-   */
+    * Called after a video frame has been decoded from a media stream.
+    * Optionally a BufferedImage version of the frame may be passed
+    * if the calling {@link IMediaReader} instance was configured to
+    * create BufferedImages.
+    *
+    * This method blocks, so return quickly.
+    */
   def tain(arg: String) {
     if (arg.length <= 0)
       throw new IllegalArgumentException(

@@ -1,6 +1,6 @@
 package com.uzielasto.app.javasurf.src.main.java.org.javasurf.base;
 
-import java.awt.*;
+import java.awt.Image;
 import java.util.ArrayList;
 
 /**
@@ -30,18 +30,14 @@ public class FastHessian implements IDetector {
      * @param integralImage
      * @param imgWidth
      * @param imgHeight
-     * @param balanceValue
-     *            Value used to calculate the Laplacian of Gaussian response.
-     * @param threshold
-     *            Value used to filter the Laplacian of Gaussian.
-     * @param octaves
-     *            Number of octaves that you want to compute.
-     * @param parent
-     *            PApplet where you display your video output.
+     * @param balanceValue  Value used to calculate the Laplacian of Gaussian response.
+     * @param threshold     Value used to filter the Laplacian of Gaussian.
+     * @param octaves       Number of octaves that you want to compute.
+     * @param parent        PApplet where you display your video output.
      */
     public FastHessian(IIntegralImage integralImage, int imgWidth,
-            int imgHeight, float balanceValue, float threshold, int octaves,
-            Image parent) {
+                       int imgHeight, float balanceValue, float threshold, int octaves,
+                       Image parent) {
         this.integralImage = integralImage;
         this.threshold = threshold;
         this.octaves = octaves;
@@ -69,7 +65,7 @@ public class FastHessian implements IDetector {
         float Dxx;
         float Dyy;
         float Dxy;
-        float balancaValueSquared=balanceValue * balanceValue;
+        float balancaValueSquared = balanceValue * balanceValue;
         int center;
         int filterArea;
         int filterIncrease = 3;
@@ -79,8 +75,8 @@ public class FastHessian implements IDetector {
             filterIncrease = 2 * filterIncrease;
 
             for (int filtersize = firstFiltersizeOfTheOctave;
-                    filtersize < (firstFiltersizeOfTheOctave +
-                    (3 * filterIncrease) + 1); filtersize += filterIncrease) {
+                 filtersize < (firstFiltersizeOfTheOctave +
+                         (3 * filterIncrease) + 1); filtersize += filterIncrease) {
                 /*
                  * The overflow from the edges is not managed.
                  */
@@ -94,7 +90,7 @@ public class FastHessian implements IDetector {
                         Dxx = gaussConvolution.makeConvolutionDxx(j, i, filtersize) / filterArea;
                         Dyy = gaussConvolution.makeConvolutionDyy(j, i, filtersize) / filterArea;
                         Dxy = gaussConvolution.makeConvolutionDxy(j, i, filtersize) / filterArea;
-                        float value = (float) ((Dxx * Dyy) - ( balancaValueSquared* Dxy * Dxy));
+                        float value = (float) ((Dxx * Dyy) - (balancaValueSquared * Dxy * Dxy));
                         hessianDeterminants[i][j] = ((value < 0) ? 0 : value);
                     }
                 }
@@ -138,7 +134,7 @@ public class FastHessian implements IDetector {
                             if (isLocalMaxima(i, t, j, k, 4)) {
                                 interestPoints.add(new InterestPoint(j, k,
                                         (float) (((((9 + (6 * (2 ^ i))) - 6 +
-                                        (t * 6 * 2)) ^ i) * 1.2) / 9), parent));
+                                                (t * 6 * 2)) ^ i) * 1.2) / 9), parent));
                             } else {
                             }
                         } else {

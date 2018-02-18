@@ -10,9 +10,40 @@ package com.uzielasto.app;
 
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Arc2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -111,16 +142,6 @@ public class VideoImage extends JFrame {
         tabbedPane.addTab("With processing 3", null, panel3,
                 "With processing");
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
-//        DSFilterInfo[][] dsi = DSCapture.queryDevices();
-//        String[] devices = new String[dsi[0].length];
-//        for (int i = 0; i < dsi[0].length-1; i ++) {
-//            devices[i] = i+" "+dsi[0][i].getName();
-//        }
-//        listOfButtons = new JComboBox(devices);
-//
-//        listOfButtons.setSelectedIndex(dsi[0].length-1);
-        //listOfButtons.addActionListener(this);
-        // image = (BufferedImage)mOnscreenPicture.mImage;
         MyMouseAdapter mouseAdapter = new MyMouseAdapter();
         mOnscreenPicture.addMouseListener(mouseAdapter);
         mOnscreenPicture.addMouseMotionListener(mouseAdapter);
@@ -134,25 +155,11 @@ public class VideoImage extends JFrame {
         ip.setLayout(new FlowLayout());
 
 
-        try {
-            myPicture = ImageIO.read(new File("1027_fig4.png"));
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
         picLabel = new JLabel(new ImageIcon());
 
         this.addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
-                int w = (int) ip.getWidth();
-                int h = (int) ip.getHeight();
-                if (h > 0 && w > 0 && h != myPicture.getHeight()) {
-                    Image scaledImage = myPicture.getScaledInstance((int) (w / 1.2), (int) (h / 1.1), 1);
-
-                    BufferedImage img = new BufferedImage((int) (w / 1.2), (int) (h / 1.1), BufferedImage.TYPE_3BYTE_BGR);
-                    img.getGraphics().drawImage(scaledImage, 0, 0, null);
-                    picLabel.setIcon(new ImageIcon(img));
-                }
             }
 
             @Override
@@ -259,7 +266,7 @@ public class VideoImage extends JFrame {
         menuBar.add(menu);
 
 //a group of check box menu items
-        JCheckBoxMenuItem checkBoxMenuItemPointMatching = new JCheckBoxMenuItem("Point matching");
+        JCheckBoxMenuItem checkBoxMenuItemPointMatching = new JCheckBoxMenuItem("Accident Prediction");
         checkBoxMenuItemPointMatching.setMnemonic(KeyEvent.VK_P);
         checkBoxMenuItemPointMatching.addActionListener(new ActionListener() {
             @Override
@@ -373,6 +380,7 @@ public class VideoImage extends JFrame {
     private class MyMouseAdapter extends MouseAdapter {
         private Point mousePress = null;
         private Point mousePressTitle = null;
+
         @Override
         public void mouseClicked(MouseEvent e) {
             if (e.getButton() == 1) {
@@ -551,26 +559,26 @@ public class VideoImage extends JFrame {
                 sumwh = width + height;
                 g2.draw(rect);
 
-              Arc2D.Double greenArc = new Arc2D.Double(x, y + height * 1 / 4, width,
-                  height + height * 1 / 2, 0, 180,
-                  Arc2D.OPEN);
-              Arc2D.Double orangeArc = new Arc2D.Double(x, y + height * 2/ 4, width,
-                  height , 0, 180,
-                  Arc2D.OPEN);
-              Arc2D.Double redArc = new Arc2D.Double(x, y + height * 3 / 4, width,
-                  height-height * 1 / 2, 0, 180,
-                  Arc2D.OPEN);
-              g2.draw(greenArc);
-              g2.setColor(Color.ORANGE);
-              pen = new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 7, dashl, 0);
-              g2.setStroke(pen);
+                Arc2D.Double greenArc = new Arc2D.Double(x, y + height * 1 / 4, width,
+                        height + height * 1 / 2, 0, 180,
+                        Arc2D.OPEN);
+                Arc2D.Double orangeArc = new Arc2D.Double(x, y + height * 2 / 4, width,
+                        height, 0, 180,
+                        Arc2D.OPEN);
+                Arc2D.Double redArc = new Arc2D.Double(x, y + height * 3 / 4, width,
+                        height - height * 1 / 2, 0, 180,
+                        Arc2D.OPEN);
+                g2.draw(greenArc);
+                g2.setColor(Color.ORANGE);
+                pen = new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 7, dashl, 0);
+                g2.setStroke(pen);
 
-              g2.draw(orangeArc);
-              g2.setColor(Color.RED);
-              pen = new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 7, dashl, 0);
-              g2.setStroke(pen);
+                g2.draw(orangeArc);
+                g2.setColor(Color.RED);
+                pen = new BasicStroke(3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL, 7, dashl, 0);
+                g2.setStroke(pen);
 
-              g2.draw(redArc);
+                g2.draw(redArc);
 
             }
             if (showStatTitle) {
@@ -589,7 +597,7 @@ public class VideoImage extends JFrame {
         VideoImage.x = x;
     }
 
-    public  int getYCoord() {
+    public int getYCoord() {
         return yTitle;
     }
 

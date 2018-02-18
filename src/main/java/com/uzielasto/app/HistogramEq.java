@@ -1,7 +1,7 @@
 package com.uzielasto.app;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,9 +28,10 @@ public class HistogramEq {
     }
 
     private static void writeImage(String output) throws IOException {
-        File file = new File(output+".jpg");
+        File file = new File(output + ".jpg");
         ImageIO.write(equalized, "jpg", file);
     }
+
     public static void invertImage(String imageName) {
         BufferedImage inputFile = null;
         try {
@@ -51,12 +52,13 @@ public class HistogramEq {
         }
 
         try {
-            File outputFile = new File("invert-"+imageName);
+            File outputFile = new File("invert-" + imageName);
             ImageIO.write(inputFile, "jpg", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public static BufferedImage invertImage(BufferedImage inputFile) {
 
         for (int x = 0; x < inputFile.getWidth(); x++) {
@@ -70,8 +72,9 @@ public class HistogramEq {
             }
         }
 
-     return inputFile;
+        return inputFile;
     }
+
     public static BufferedImage histogramEqualization(BufferedImage original) {
 
         int red;
@@ -85,14 +88,14 @@ public class HistogramEq {
 
         BufferedImage histogramEQ = new BufferedImage(original.getWidth(), original.getHeight(), original.getType());
 
-        for(int i=0; i<original.getWidth(); i++) {
-            for(int j=0; j<original.getHeight(); j++) {
+        for (int i = 0; i < original.getWidth(); i++) {
+            for (int j = 0; j < original.getHeight(); j++) {
 
                 // Get pixels by R, G, B
-                alpha = new Color(original.getRGB (i, j)).getAlpha();
-                red = new Color(original.getRGB (i, j)).getRed();
-                green = new Color(original.getRGB (i, j)).getGreen();
-                blue = new Color(original.getRGB (i, j)).getBlue();
+                alpha = new Color(original.getRGB(i, j)).getAlpha();
+                red = new Color(original.getRGB(i, j)).getRed();
+                green = new Color(original.getRGB(i, j)).getGreen();
+                blue = new Color(original.getRGB(i, j)).getBlue();
 
                 // Set new pixel values using the histogram lookup table
                 red = histLUT.get(0)[red];
@@ -126,9 +129,9 @@ public class HistogramEq {
         int[] ghistogram = new int[256];
         int[] bhistogram = new int[256];
 
-        for(int i=0; i<rhistogram.length; i++) rhistogram[i] = 0;
-        for(int i=0; i<ghistogram.length; i++) ghistogram[i] = 0;
-        for(int i=0; i<bhistogram.length; i++) bhistogram[i] = 0;
+        for (int i = 0; i < rhistogram.length; i++) rhistogram[i] = 0;
+        for (int i = 0; i < ghistogram.length; i++) ghistogram[i] = 0;
+        for (int i = 0; i < bhistogram.length; i++) bhistogram[i] = 0;
 
         long sumr = 0;
         long sumg = 0;
@@ -137,27 +140,24 @@ public class HistogramEq {
         // Calculate the scale factor
         float scale_factor = (float) (255.0 / (input.getWidth() * input.getHeight()));
 
-        for(int i=0; i<rhistogram.length; i++) {
+        for (int i = 0; i < rhistogram.length; i++) {
             sumr += imageHist.get(0)[i];
             int valr = (int) (sumr * scale_factor);
-            if(valr > 255) {
+            if (valr > 255) {
                 rhistogram[i] = 255;
-            }
-            else rhistogram[i] = valr;
+            } else rhistogram[i] = valr;
 
             sumg += imageHist.get(1)[i];
             int valg = (int) (sumg * scale_factor);
-            if(valg > 255) {
+            if (valg > 255) {
                 ghistogram[i] = 255;
-            }
-            else ghistogram[i] = valg;
+            } else ghistogram[i] = valg;
 
             sumb += imageHist.get(2)[i];
             int valb = (int) (sumb * scale_factor);
-            if(valb > 255) {
+            if (valb > 255) {
                 bhistogram[i] = 255;
-            }
-            else bhistogram[i] = valb;
+            } else bhistogram[i] = valb;
         }
 
         imageLUT.add(rhistogram);
@@ -175,19 +175,21 @@ public class HistogramEq {
         int[] ghistogram = new int[256];
         int[] bhistogram = new int[256];
 
-        for(int i=0; i<rhistogram.length; i++) rhistogram[i] = 0;
-        for(int i=0; i<ghistogram.length; i++) ghistogram[i] = 0;
-        for(int i=0; i<bhistogram.length; i++) bhistogram[i] = 0;
+        for (int i = 0; i < rhistogram.length; i++) rhistogram[i] = 0;
+        for (int i = 0; i < ghistogram.length; i++) ghistogram[i] = 0;
+        for (int i = 0; i < bhistogram.length; i++) bhistogram[i] = 0;
 
-        for(int i=0; i<input.getWidth(); i++) {
-            for(int j=0; j<input.getHeight(); j++) {
+        for (int i = 0; i < input.getWidth(); i++) {
+            for (int j = 0; j < input.getHeight(); j++) {
 
-                int red = new Color(input.getRGB (i, j)).getRed();
-                int green = new Color(input.getRGB (i, j)).getGreen();
-                int blue = new Color(input.getRGB (i, j)).getBlue();
+                int red = new Color(input.getRGB(i, j)).getRed();
+                int green = new Color(input.getRGB(i, j)).getGreen();
+                int blue = new Color(input.getRGB(i, j)).getBlue();
 
                 // Increase the values of colors
-                rhistogram[red]++; ghistogram[green]++; bhistogram[blue]++;
+                rhistogram[red]++;
+                ghistogram[green]++;
+                bhistogram[blue]++;
 
             }
         }
@@ -205,9 +207,12 @@ public class HistogramEq {
     private static int colorToRGB(int alpha, int red, int green, int blue) {
 
         int newPixel = 0;
-        newPixel += alpha; newPixel = newPixel << 8;
-        newPixel += red; newPixel = newPixel << 8;
-        newPixel += green; newPixel = newPixel << 8;
+        newPixel += alpha;
+        newPixel = newPixel << 8;
+        newPixel += red;
+        newPixel = newPixel << 8;
+        newPixel += green;
+        newPixel = newPixel << 8;
         newPixel += blue;
 
         return newPixel;

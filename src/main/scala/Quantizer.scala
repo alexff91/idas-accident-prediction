@@ -11,8 +11,10 @@ import java.util.concurrent.TimeUnit
 import java.util.logging.{Level, Logger}
 import javax.imageio.ImageIO
 
-import com.uzielasto.app.javasurf.src.main.java.org.javasurf.base._
-import com.uzielasto.app.{ElastoGo, ImageAdjaster, QuantizedImage, VideoImage}
+import com.idas.app.{ImageAdjaster, QuantizedImage, VideoImage}
+import com.idas.app.javasurf.src.main.java.org.javasurf.base.{IDetector, ISURFfactory, InterestPoint, SURF}
+import com.idas.app.javasurf.src.main.java.org.javasurf.base._
+import com.idas.app.{Starter, ImageAdjaster, QuantizedImage, VideoImage}
 
 import scala.List
 

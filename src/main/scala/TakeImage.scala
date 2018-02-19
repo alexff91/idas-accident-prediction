@@ -14,7 +14,7 @@ import java.io.File
 import javax.imageio.ImageIO
 import javax.swing.JFrame
 
-import com.uzielasto.app.VideoImage
+import com.idas.app.VideoImage
 import com.xuggle.mediatool.event.IVideoPictureEvent
 import com.xuggle.mediatool.{IMediaReader, MediaListenerAdapter, MediaToolAdapter, ToolFactory}
 import com.xuggle.xuggler._
